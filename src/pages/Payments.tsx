@@ -1,5 +1,8 @@
+import { CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
-import { payments, formatCurrency } from "@/data/mockData";
+import { useStore } from "@/hooks/useStore";
+import { formatCurrency } from "@/data/mockData";
 
 const statusLabel: Record<string, { text: string; className: string }> = {
   paid: { text: "Lunas", className: "bg-success/15 text-success border-success/20" },
@@ -8,6 +11,12 @@ const statusLabel: Record<string, { text: string; className: string }> = {
 };
 
 const Payments = () => {
+  const { payments, updatePaymentStatus } = useStore();
+
+  const markAsPaid = (id: string) => {
+    updatePaymentStatus(id, "paid", new Date().toISOString().split("T")[0]);
+  };
+
   return (
     <DashboardLayout>
       <div className="mb-8">
@@ -25,6 +34,7 @@ const Payments = () => {
               <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Jumlah</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Tanggal Bayar</th>
               <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">Aksi</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -43,6 +53,13 @@ const Payments = () => {
                     <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${s.className}`}>
                       {s.text}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    {p.status !== "paid" && (
+                      <Button variant="outline" size="sm" onClick={() => markAsPaid(p.id)}>
+                        <CheckCircle className="mr-1.5 h-3.5 w-3.5" /> Tandai Lunas
+                      </Button>
+                    )}
                   </td>
                 </tr>
               );
