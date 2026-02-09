@@ -1,10 +1,12 @@
-import { DoorOpen, Users, CreditCard, AlertTriangle, TrendingUp } from "lucide-react";
+import { DoorOpen, Users, TrendingUp, AlertTriangle, CreditCard } from "lucide-react";
 import DashboardLayout from "@/components/DashboardLayout";
 import StatCard from "@/components/StatCard";
 import RoomStatusBadge from "@/components/RoomStatusBadge";
-import { rooms, tenants, payments, formatCurrency } from "@/data/mockData";
+import { useStore } from "@/hooks/useStore";
+import { formatCurrency } from "@/data/mockData";
 
 const Index = () => {
+  const { rooms, tenants, payments } = useStore();
   const occupied = rooms.filter((r) => r.status === "occupied").length;
   const available = rooms.filter((r) => r.status === "available").length;
   const overdue = payments.filter((p) => p.status === "overdue");
@@ -25,7 +27,6 @@ const Index = () => {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Room Overview */}
         <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <h2 className="text-lg font-semibold text-card-foreground mb-4">Status Kamar</h2>
           <div className="space-y-3">
@@ -44,7 +45,6 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Payment Alerts */}
         <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.2s" }}>
           <h2 className="text-lg font-semibold text-card-foreground mb-4">Pembayaran Terbaru</h2>
           <div className="space-y-3">
