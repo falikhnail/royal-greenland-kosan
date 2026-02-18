@@ -21,10 +21,12 @@ export type Database = {
           date: string | null
           id: string
           month: string
+          month_number: number
           room_number: string
           status: string
           tenant_id: string | null
           tenant_name: string
+          year: number
         }
         Insert: {
           amount?: number
@@ -32,10 +34,12 @@ export type Database = {
           date?: string | null
           id?: string
           month?: string
+          month_number?: number
           room_number?: string
           status?: string
           tenant_id?: string | null
           tenant_name?: string
+          year?: number
         }
         Update: {
           amount?: number
@@ -43,10 +47,12 @@ export type Database = {
           date?: string | null
           id?: string
           month?: string
+          month_number?: number
           room_number?: string
           status?: string
           tenant_id?: string | null
           tenant_name?: string
+          year?: number
         }
         Relationships: [
           {
@@ -101,11 +107,11 @@ export type Database = {
       }
       tenants: {
         Row: {
-          check_in: string
-          check_out: string
           created_at: string
+          due_day: number
           id: string
           monthly_rent: number
+          move_in_date: string
           name: string
           phone: string
           room_id: string | null
@@ -113,11 +119,11 @@ export type Database = {
           status: string
         }
         Insert: {
-          check_in?: string
-          check_out?: string
           created_at?: string
+          due_day?: number
           id?: string
           monthly_rent?: number
+          move_in_date?: string
           name: string
           phone?: string
           room_id?: string | null
@@ -125,11 +131,11 @@ export type Database = {
           status?: string
         }
         Update: {
-          check_in?: string
-          check_out?: string
           created_at?: string
+          due_day?: number
           id?: string
           monthly_rent?: number
+          move_in_date?: string
           name?: string
           phone?: string
           room_id?: string | null

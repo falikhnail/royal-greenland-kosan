@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Plus, Pencil, Trash2 } from "lucide-react";
+import { Phone, Plus, Pencil, Trash2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
 import TenantDialog from "@/components/TenantDialog";
@@ -28,6 +28,12 @@ const Tenants = () => {
       addTenant.mutate(data);
     }
     setEditTenant(null);
+  };
+
+  const openWhatsApp = (tenant: Tenant) => {
+    const cleanPhone = tenant.phone.replace(/[^0-9]/g, "").replace(/^0/, "62");
+    const url = `https://wa.me/${cleanPhone}`;
+    window.open(url, "_blank");
   };
 
   return (
@@ -66,21 +72,24 @@ const Tenants = () => {
             </div>
 
             <div className="space-y-2 text-sm">
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Phone className="h-3.5 w-3.5" />
-                {tenant.phone}
-              </div>
+              <button
+                onClick={() => openWhatsApp(tenant)}
+                className="flex items-center gap-2 text-muted-foreground hover:text-success transition-colors cursor-pointer"
+              >
+                <MessageCircle className="h-3.5 w-3.5" />
+                <span className="underline underline-offset-2">{tenant.phone}</span>
+              </button>
               <div className="flex justify-between text-muted-foreground">
                 <span>Sewa/bulan</span>
                 <span className="font-medium text-card-foreground">{formatCurrency(tenant.monthly_rent)}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
-                <span>Check-in</span>
-                <span>{new Date(tenant.check_in).toLocaleDateString("id-ID")}</span>
+                <span>Tanggal Masuk</span>
+                <span>{new Date(tenant.move_in_date).toLocaleDateString("id-ID")}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
-                <span>Check-out</span>
-                <span>{new Date(tenant.check_out).toLocaleDateString("id-ID")}</span>
+                <span>Jatuh Tempo</span>
+                <span>Setiap tanggal {tenant.due_day}</span>
               </div>
             </div>
 
