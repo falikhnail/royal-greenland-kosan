@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Room, RoomStatus } from "@/data/mockData";
+import { Room } from "@/hooks/useRooms";
 
 interface RoomDialogProps {
   open: boolean;
@@ -18,7 +18,7 @@ const RoomDialog = ({ open, onClose, onSave, room }: RoomDialogProps) => {
   const [floor, setFloor] = useState("1");
   const [type, setType] = useState("Standard");
   const [price, setPrice] = useState("");
-  const [status, setStatus] = useState<RoomStatus>("available");
+  const [status, setStatus] = useState("available");
 
   useEffect(() => {
     if (room) {
@@ -28,23 +28,15 @@ const RoomDialog = ({ open, onClose, onSave, room }: RoomDialogProps) => {
       setPrice(String(room.price));
       setStatus(room.status);
     } else {
-      setNumber("");
-      setFloor("1");
-      setType("Standard");
-      setPrice("");
-      setStatus("available");
+      setNumber(""); setFloor("1"); setType("Standard"); setPrice(""); setStatus("available");
     }
   }, [room, open]);
 
   const handleSubmit = () => {
     if (!number || !price) return;
     onSave({
-      number,
-      floor: parseInt(floor),
-      type,
-      price: parseInt(price),
-      status,
-      tenantId: room?.tenantId,
+      number, floor: parseInt(floor), type, price: parseInt(price), status,
+      tenant_id: room?.tenant_id ?? null,
     });
     onClose();
   };
@@ -90,7 +82,7 @@ const RoomDialog = ({ open, onClose, onSave, room }: RoomDialogProps) => {
           </div>
           <div className="space-y-2">
             <Label>Status</Label>
-            <Select value={status} onValueChange={(v) => setStatus(v as RoomStatus)}>
+            <Select value={status} onValueChange={setStatus}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="available">Tersedia</SelectItem>

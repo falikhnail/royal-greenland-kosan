@@ -2,11 +2,16 @@ import { DoorOpen, Users, TrendingUp, AlertTriangle, CreditCard } from "lucide-r
 import DashboardLayout from "@/components/DashboardLayout";
 import StatCard from "@/components/StatCard";
 import RoomStatusBadge from "@/components/RoomStatusBadge";
-import { useStore } from "@/hooks/useStore";
+import { useRooms } from "@/hooks/useRooms";
+import { useTenants } from "@/hooks/useTenants";
+import { usePayments } from "@/hooks/usePayments";
 import { formatCurrency } from "@/data/mockData";
 
 const Index = () => {
-  const { rooms, tenants, payments } = useStore();
+  const { data: rooms = [] } = useRooms();
+  const { data: tenants = [] } = useTenants();
+  const { data: payments = [] } = usePayments();
+
   const occupied = rooms.filter((r) => r.status === "occupied").length;
   const available = rooms.filter((r) => r.status === "available").length;
   const overdue = payments.filter((p) => p.status === "overdue");
@@ -55,8 +60,8 @@ const Index = () => {
                   {payment.status === "pending" && <CreditCard className="h-4 w-4 text-warning" />}
                   {payment.status === "paid" && <CreditCard className="h-4 w-4 text-success" />}
                   <div>
-                    <span className="font-medium text-card-foreground">{payment.tenantName}</span>
-                    <span className="ml-2 text-xs text-muted-foreground">Kamar {payment.roomNumber}</span>
+                    <span className="font-medium text-card-foreground">{payment.tenant_name}</span>
+                    <span className="ml-2 text-xs text-muted-foreground">Kamar {payment.room_number}</span>
                   </div>
                 </div>
                 <div className="text-right">

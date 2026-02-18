@@ -5,21 +5,26 @@ import DashboardLayout from "@/components/DashboardLayout";
 import RoomStatusBadge from "@/components/RoomStatusBadge";
 import RoomDialog from "@/components/RoomDialog";
 import DeleteConfirm from "@/components/DeleteConfirm";
-import { useStore } from "@/hooks/useStore";
-import { Room } from "@/data/mockData";
+import { useRooms, useAddRoom, useUpdateRoom, useDeleteRoom, Room } from "@/hooks/useRooms";
+import { useTenants } from "@/hooks/useTenants";
 import { formatCurrency } from "@/data/mockData";
 
 const Rooms = () => {
-  const { rooms, tenants, addRoom, updateRoom, deleteRoom } = useStore();
+  const { data: rooms = [] } = useRooms();
+  const { data: tenants = [] } = useTenants();
+  const addRoom = useAddRoom();
+  const updateRoom = useUpdateRoom();
+  const deleteRoom = useDeleteRoom();
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editRoom, setEditRoom] = useState<Room | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const handleSave = (data: Omit<Room, "id">) => {
     if (editRoom) {
-      updateRoom(editRoom.id, data);
+      updateRoom.mutate({ id: editRoom.id, ...data });
     } else {
-      addRoom(data);
+      addRoom.mutate(data);
     }
     setEditRoom(null);
   };
@@ -51,7 +56,7 @@ const Rooms = () => {
           </thead>
           <tbody className="divide-y divide-border">
             {rooms.map((room) => {
-              const tenant = tenants.find((t) => t.id === room.tenantId);
+              const tenant = tenants.find((t) => t.id === room.tenant_id);
               return (
                 <tr key={room.id} className="hover:bg-muted/30 transition-colors">
                   <td className="px-6 py-4 text-sm font-semibold text-card-foreground">{room.number}</td>
@@ -87,7 +92,7 @@ const Rooms = () => {
       <DeleteConfirm
         open={!!deleteId}
         onClose={() => setDeleteId(null)}
-        onConfirm={() => { if (deleteId) { deleteRoom(deleteId); setDeleteId(null); } }}
+        onConfirm={() => { if (deleteId) { deleteRoom.mutate(deleteId); setDeleteId(null); } }}
         title="Hapus Kamar"
         description="Apakah Anda yakin ingin menghapus kamar ini? Tindakan ini tidak dapat dibatalkan."
       />
