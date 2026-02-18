@@ -1,7 +1,7 @@
 import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
-import { useStore } from "@/hooks/useStore";
+import { usePayments, useUpdatePaymentStatus } from "@/hooks/usePayments";
 import { formatCurrency } from "@/data/mockData";
 
 const statusLabel: Record<string, { text: string; className: string }> = {
@@ -11,10 +11,11 @@ const statusLabel: Record<string, { text: string; className: string }> = {
 };
 
 const Payments = () => {
-  const { payments, updatePaymentStatus } = useStore();
+  const { data: payments = [] } = usePayments();
+  const updateStatus = useUpdatePaymentStatus();
 
   const markAsPaid = (id: string) => {
-    updatePaymentStatus(id, "paid", new Date().toISOString().split("T")[0]);
+    updateStatus.mutate({ id, status: "paid", date: new Date().toISOString().split("T")[0] });
   };
 
   return (
@@ -39,11 +40,11 @@ const Payments = () => {
           </thead>
           <tbody className="divide-y divide-border">
             {payments.map((p) => {
-              const s = statusLabel[p.status];
+              const s = statusLabel[p.status] ?? statusLabel.pending;
               return (
                 <tr key={p.id} className="hover:bg-muted/30 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-card-foreground">{p.tenantName}</td>
-                  <td className="px-6 py-4 text-sm text-muted-foreground">{p.roomNumber}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-card-foreground">{p.tenant_name}</td>
+                  <td className="px-6 py-4 text-sm text-muted-foreground">{p.room_number}</td>
                   <td className="px-6 py-4 text-sm text-muted-foreground">{p.month}</td>
                   <td className="px-6 py-4 text-sm font-medium text-card-foreground">{formatCurrency(p.amount)}</td>
                   <td className="px-6 py-4 text-sm text-muted-foreground">

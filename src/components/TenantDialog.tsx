@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tenant } from "@/data/mockData";
-import { Room } from "@/data/mockData";
+import { Tenant } from "@/hooks/useTenants";
+import { Room } from "@/hooks/useRooms";
 
 interface TenantDialogProps {
   open: boolean;
@@ -21,28 +21,23 @@ const TenantDialog = ({ open, onClose, onSave, tenant, availableRooms }: TenantD
   const [roomId, setRoomId] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [status, setStatus] = useState<"active" | "overdue">("active");
+  const [status, setStatus] = useState("active");
 
   useEffect(() => {
     if (tenant) {
       setName(tenant.name);
       setPhone(tenant.phone);
-      setRoomId(tenant.roomId);
-      setCheckIn(tenant.checkIn);
-      setCheckOut(tenant.checkOut);
+      setRoomId(tenant.room_id ?? "");
+      setCheckIn(tenant.check_in);
+      setCheckOut(tenant.check_out);
       setStatus(tenant.status);
     } else {
-      setName("");
-      setPhone("");
-      setRoomId("");
-      setCheckIn("");
-      setCheckOut("");
-      setStatus("active");
+      setName(""); setPhone(""); setRoomId(""); setCheckIn(""); setCheckOut(""); setStatus("active");
     }
   }, [tenant, open]);
 
-  const allRooms = tenant
-    ? [...availableRooms, { id: tenant.roomId, number: tenant.roomNumber } as Room]
+  const allRooms = tenant?.room_id
+    ? [...availableRooms, { id: tenant.room_id, number: tenant.room_number } as Room]
     : availableRooms;
 
   const selectedRoom = allRooms.find((r) => r.id === roomId);
@@ -50,13 +45,12 @@ const TenantDialog = ({ open, onClose, onSave, tenant, availableRooms }: TenantD
   const handleSubmit = () => {
     if (!name || !phone || !roomId || !checkIn || !checkOut || !selectedRoom) return;
     onSave({
-      name,
-      phone,
-      roomId,
-      roomNumber: selectedRoom.number,
-      checkIn,
-      checkOut,
-      monthlyRent: selectedRoom.price ?? 0,
+      name, phone,
+      room_id: roomId,
+      room_number: selectedRoom.number,
+      check_in: checkIn,
+      check_out: checkOut,
+      monthly_rent: selectedRoom.price ?? 0,
       status,
     });
     onClose();
@@ -100,7 +94,7 @@ const TenantDialog = ({ open, onClose, onSave, tenant, availableRooms }: TenantD
           </div>
           <div className="space-y-2">
             <Label>Status</Label>
-            <Select value={status} onValueChange={(v) => setStatus(v as "active" | "overdue")}>
+            <Select value={status} onValueChange={setStatus}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="active">Aktif</SelectItem>

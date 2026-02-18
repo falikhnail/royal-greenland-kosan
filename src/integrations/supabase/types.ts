@@ -14,7 +14,138 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          date: string | null
+          id: string
+          month: string
+          room_number: string
+          status: string
+          tenant_id: string | null
+          tenant_name: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          date?: string | null
+          id?: string
+          month?: string
+          room_number?: string
+          status?: string
+          tenant_id?: string | null
+          tenant_name?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          date?: string | null
+          id?: string
+          month?: string
+          room_number?: string
+          status?: string
+          tenant_id?: string | null
+          tenant_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rooms: {
+        Row: {
+          created_at: string
+          floor: number
+          id: string
+          number: string
+          price: number
+          status: string
+          tenant_id: string | null
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          floor?: number
+          id?: string
+          number: string
+          price?: number
+          status?: string
+          tenant_id?: string | null
+          type?: string
+        }
+        Update: {
+          created_at?: string
+          floor?: number
+          id?: string
+          number?: string
+          price?: number
+          status?: string
+          tenant_id?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rooms_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenants: {
+        Row: {
+          check_in: string
+          check_out: string
+          created_at: string
+          id: string
+          monthly_rent: number
+          name: string
+          phone: string
+          room_id: string | null
+          room_number: string
+          status: string
+        }
+        Insert: {
+          check_in?: string
+          check_out?: string
+          created_at?: string
+          id?: string
+          monthly_rent?: number
+          name: string
+          phone?: string
+          room_id?: string | null
+          room_number?: string
+          status?: string
+        }
+        Update: {
+          check_in?: string
+          check_out?: string
+          created_at?: string
+          id?: string
+          monthly_rent?: number
+          name?: string
+          phone?: string
+          room_id?: string | null
+          room_number?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenants_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
