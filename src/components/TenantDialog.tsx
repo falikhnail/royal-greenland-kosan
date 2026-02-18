@@ -19,8 +19,7 @@ const TenantDialog = ({ open, onClose, onSave, tenant, availableRooms }: TenantD
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [roomId, setRoomId] = useState("");
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
+  const [moveInDate, setMoveInDate] = useState("");
   const [status, setStatus] = useState("active");
 
   useEffect(() => {
@@ -28,11 +27,10 @@ const TenantDialog = ({ open, onClose, onSave, tenant, availableRooms }: TenantD
       setName(tenant.name);
       setPhone(tenant.phone);
       setRoomId(tenant.room_id ?? "");
-      setCheckIn(tenant.check_in);
-      setCheckOut(tenant.check_out);
+      setMoveInDate(tenant.move_in_date);
       setStatus(tenant.status);
     } else {
-      setName(""); setPhone(""); setRoomId(""); setCheckIn(""); setCheckOut(""); setStatus("active");
+      setName(""); setPhone(""); setRoomId(""); setMoveInDate(""); setStatus("active");
     }
   }, [tenant, open]);
 
@@ -43,13 +41,14 @@ const TenantDialog = ({ open, onClose, onSave, tenant, availableRooms }: TenantD
   const selectedRoom = allRooms.find((r) => r.id === roomId);
 
   const handleSubmit = () => {
-    if (!name || !phone || !roomId || !checkIn || !checkOut || !selectedRoom) return;
+    if (!name || !phone || !roomId || !moveInDate || !selectedRoom) return;
+    const dueDay = new Date(moveInDate).getDate();
     onSave({
       name, phone,
       room_id: roomId,
       room_number: selectedRoom.number,
-      check_in: checkIn,
-      check_out: checkOut,
+      move_in_date: moveInDate,
+      due_day: dueDay,
       monthly_rent: selectedRoom.price ?? 0,
       status,
     });
@@ -68,7 +67,7 @@ const TenantDialog = ({ open, onClose, onSave, tenant, availableRooms }: TenantD
             <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nama lengkap" />
           </div>
           <div className="space-y-2">
-            <Label>No. Telepon</Label>
+            <Label>No. Telepon (WhatsApp)</Label>
             <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="0812-xxxx-xxxx" />
           </div>
           <div className="space-y-2">
@@ -82,15 +81,12 @@ const TenantDialog = ({ open, onClose, onSave, tenant, availableRooms }: TenantD
               </SelectContent>
             </Select>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Check-in</Label>
-              <Input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <Label>Check-out</Label>
-              <Input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} />
-            </div>
+          <div className="space-y-2">
+            <Label>Tanggal Masuk</Label>
+            <Input type="date" value={moveInDate} onChange={(e) => setMoveInDate(e.target.value)} />
+            <p className="text-xs text-muted-foreground">
+              Tanggal masuk menentukan jatuh tempo bayar bulanan (contoh: masuk tgl 30 → bayar tiap tgl 30)
+            </p>
           </div>
           <div className="space-y-2">
             <Label>Status</Label>

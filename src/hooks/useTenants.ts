@@ -8,8 +8,8 @@ export interface Tenant {
   phone: string;
   room_id: string | null;
   room_number: string;
-  check_in: string;
-  check_out: string;
+  move_in_date: string;
+  due_day: number;
   monthly_rent: number;
   status: string;
 }
@@ -31,7 +31,6 @@ export function useAddTenant() {
     mutationFn: async (tenant: Omit<Tenant, "id">) => {
       const { data, error } = await supabase.from("tenants").insert(tenant).select().single();
       if (error) throw error;
-      // Update room status
       if (tenant.room_id) {
         await supabase.from("rooms").update({ status: "occupied", tenant_id: data.id }).eq("id", tenant.room_id);
       }
