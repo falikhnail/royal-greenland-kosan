@@ -1,4 +1,4 @@
-import { Home, DoorOpen, Users, CreditCard, LogOut } from "lucide-react";
+import { Home, DoorOpen, Users, CreditCard, LogOut, ShieldCheck } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/logo.png";
@@ -8,6 +8,7 @@ const navItems = [
   { to: "/rooms", icon: DoorOpen, label: "Kamar" },
   { to: "/tenants", icon: Users, label: "Penghuni" },
   { to: "/payments", icon: CreditCard, label: "Pembayaran" },
+  { to: "/users", icon: ShieldCheck, label: "Kelola Admin" },
 ];
 
 const AppSidebar = () => {
