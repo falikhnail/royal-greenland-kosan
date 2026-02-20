@@ -5,14 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { LogIn, UserPlus, Building2 } from "lucide-react";
+import { LogIn } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -21,21 +19,10 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success("Berhasil masuk!");
-        navigate("/");
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { data: { full_name: fullName } },
-        });
-        if (error) throw error;
-        toast.success("Akun berhasil dibuat! Silakan masuk.");
-        navigate("/");
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      toast.success("Berhasil masuk!");
+      navigate("/");
     } catch (error: any) {
       toast.error(error.message || "Terjadi kesalahan");
     } finally {
@@ -57,26 +44,12 @@ const Auth = () => {
         </div>
 
         <div className="glass-card rounded-xl p-6">
-          <h2 className="text-lg font-semibold text-card-foreground mb-1">
-            {isLogin ? "Masuk" : "Daftar Akun Baru"}
-          </h2>
+          <h2 className="text-lg font-semibold text-card-foreground mb-1">Masuk</h2>
           <p className="text-xs text-muted-foreground mb-5">
-            {isLogin ? "Masuk untuk mengelola kosan Anda" : "Buat akun admin untuk mengelola kosan"}
+            Masuk untuk mengelola kosan Anda
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {!isLogin && (
-              <div className="space-y-1.5">
-                <Label htmlFor="fullName" className="text-xs">Nama Lengkap</Label>
-                <Input
-                  id="fullName"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Nama lengkap Anda"
-                  required={!isLogin}
-                />
-              </div>
-            )}
             <div className="space-y-1.5">
               <Label htmlFor="email" className="text-xs">Email</Label>
               <Input
@@ -101,20 +74,10 @@ const Auth = () => {
               />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {isLogin ? <LogIn className="mr-2 h-4 w-4" /> : <UserPlus className="mr-2 h-4 w-4" />}
-              {loading ? "Memproses..." : isLogin ? "Masuk" : "Daftar"}
+              <LogIn className="mr-2 h-4 w-4" />
+              {loading ? "Memproses..." : "Masuk"}
             </Button>
           </form>
-
-          <div className="mt-4 text-center">
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-xs text-primary hover:underline"
-            >
-              {isLogin ? "Belum punya akun? Daftar" : "Sudah punya akun? Masuk"}
-            </button>
-          </div>
         </div>
       </div>
     </div>
