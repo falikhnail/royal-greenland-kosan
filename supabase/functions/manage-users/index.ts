@@ -52,9 +52,14 @@ Deno.serve(async (req) => {
     if (action === "list") {
       const { data: profiles, error } = await supabaseAdmin
         .from("profiles")
-        .select("*, user_roles(role)")
+        .select("*")
         .order("created_at", { ascending: false });
       if (error) throw error;
+
+      const { data: roles } = await supabaseAdmin
+        .from("user_roles")
+        .select("user_id, role");
+      const roleMap = new Map((roles || []).map((r: any) => [r.user_id, r.role]));
 
       // Get emails from auth
       const { data: { users: authUsers } } = await supabaseAdmin.auth.admin.listUsers();
@@ -63,7 +68,7 @@ Deno.serve(async (req) => {
       const enriched = profiles.map((p: any) => ({
         ...p,
         email: emailMap.get(p.user_id) || "",
-        role: p.user_roles?.[0]?.role || "user",
+        role: roleMap.get(p.user_id) || "user",
       }));
 
       return new Response(JSON.stringify({ users: enriched }), {
