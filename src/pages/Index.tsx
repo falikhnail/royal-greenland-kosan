@@ -4,6 +4,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import DashboardLayout from "@/components/DashboardLayout";
 import StatCard from "@/components/StatCard";
 import RoomStatusBadge from "@/components/RoomStatusBadge";
+import RevenueChart from "@/components/RevenueChart";
+import OccupancyChart from "@/components/OccupancyChart";
 import { useRooms } from "@/hooks/useRooms";
 import { useTenants } from "@/hooks/useTenants";
 import { usePayments } from "@/hooks/usePayments";
