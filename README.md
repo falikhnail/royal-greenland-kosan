@@ -1,73 +1,65 @@
-# Welcome to your Lovable project
+# Royal Greenland — Sistem Manajemen Kosan
 
-## Project info
+Aplikasi web untuk mengelola operasional kosan/indekos secara digital, mulai dari manajemen kamar, penghuni, pembayaran bulanan, hingga analitik pendapatan.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Fitur Utama
 
-## How can I edit this code?
+- **Dashboard & Analytics** — Ringkasan statistik, grafik tren pendapatan bulanan, dan tingkat okupansi kamar
+- **Manajemen Kamar** — CRUD data kamar dengan status (tersedia, terisi, maintenance), lantai, tipe, dan harga
+- **Manajemen Penghuni** — Data penghuni lengkap dengan tanggal masuk, kamar, dan kontak WhatsApp
+- **Pembayaran Bulanan** — Generate tagihan otomatis, tracking status lunas/menunggu/menunggak per bulan
+- **Integrasi WhatsApp** — Kirim pesan tagihan langsung ke penghuni via WhatsApp
+- **Kelola Admin** — Tambah dan hapus akun admin sistem dengan role-based access control
+- **Autentikasi** — Login aman dengan email & password, tanpa registrasi publik
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend:** React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui
+- **State Management:** TanStack React Query, Zustand
+- **Charts:** Recharts
+- **Backend:** Supabase (PostgreSQL, Auth, Edge Functions, Row Level Security)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Instalasi & Menjalankan
 
-Changes made via Lovable will be committed automatically to this repo.
+```bash
+# Clone repository
+git clone <URL_REPO>
 
-**Use your preferred IDE**
+# Masuk ke direktori project
+cd royal-greenland
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+# Install dependencies
+npm install
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Jalankan development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Aplikasi akan berjalan di `http://localhost:5173`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Struktur Project
 
-**Use GitHub Codespaces**
+```
+src/
+├── components/       # Komponen UI (sidebar, chart, dialog, dll)
+├── hooks/            # Custom hooks (useRooms, useTenants, usePayments, useAuth)
+├── pages/            # Halaman utama (Dashboard, Kamar, Penghuni, Pembayaran, Admin)
+├── integrations/     # Konfigurasi Supabase client
+├── data/             # Helper & formatter data
+└── assets/           # Logo dan aset statis
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+supabase/
+├── functions/        # Edge Functions (manage-users)
+└── config.toml       # Konfigurasi Supabase
+```
 
-## What technologies are used for this project?
+## Keamanan
 
-This project is built with:
+- Row Level Security (RLS) aktif di semua tabel
+- Role-based access control (admin/user) via tabel `user_roles`
+- Registrasi publik dinonaktifkan — akun baru hanya bisa dibuat oleh admin
+- Edge Functions menggunakan Service Role Key untuk operasi admin
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Lisensi
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Hak cipta © Royal Greenland. Seluruh hak dilindungi.
