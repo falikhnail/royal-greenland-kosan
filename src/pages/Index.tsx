@@ -95,7 +95,7 @@ const Index = () => {
         <RevenueChart payments={payments} year={year} />
         <OccupancyChart occupied={occupied} available={available} maintenance={maintenance} />
       </div>
-
+      <div className="grid gap-6 lg:grid-cols-2">
 
         <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <h2 className="text-lg font-semibold text-card-foreground mb-4">Status Kamar</h2>
