@@ -30,6 +30,7 @@ const Index = () => {
 
   const occupied = rooms.filter((r) => r.status === "occupied").length;
   const available = rooms.filter((r) => r.status === "available").length;
+  const maintenance = rooms.filter((r) => r.status === "maintenance").length;
 
   // Monthly payment stats
   const monthPayments = payments.filter((p) => p.month_number === month && p.year === year);
