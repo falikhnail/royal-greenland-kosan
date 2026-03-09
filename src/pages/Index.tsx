@@ -90,7 +90,13 @@ const Index = () => {
         )}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      {/* Analytics Charts */}
+      <div className="grid gap-6 lg:grid-cols-2 mb-6">
+        <RevenueChart payments={payments} year={year} />
+        <OccupancyChart occupied={occupied} available={available} maintenance={maintenance} />
+      </div>
+
+
         <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <h2 className="text-lg font-semibold text-card-foreground mb-4">Status Kamar</h2>
           <div className="space-y-3">
