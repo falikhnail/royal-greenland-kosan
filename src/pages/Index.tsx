@@ -4,6 +4,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import DashboardLayout from "@/components/DashboardLayout";
 import StatCard from "@/components/StatCard";
 import RoomStatusBadge from "@/components/RoomStatusBadge";
+import RevenueChart from "@/components/RevenueChart";
+import OccupancyChart from "@/components/OccupancyChart";
 import { useRooms } from "@/hooks/useRooms";
 import { useTenants } from "@/hooks/useTenants";
 import { usePayments } from "@/hooks/usePayments";
@@ -28,6 +30,7 @@ const Index = () => {
 
   const occupied = rooms.filter((r) => r.status === "occupied").length;
   const available = rooms.filter((r) => r.status === "available").length;
+  const maintenance = rooms.filter((r) => r.status === "maintenance").length;
 
   // Monthly payment stats
   const monthPayments = payments.filter((p) => p.month_number === month && p.year === year);
@@ -87,7 +90,13 @@ const Index = () => {
         )}
       </div>
 
+      {/* Analytics Charts */}
+      <div className="grid gap-6 lg:grid-cols-2 mb-6">
+        <RevenueChart payments={payments} year={year} />
+        <OccupancyChart occupied={occupied} available={available} maintenance={maintenance} />
+      </div>
       <div className="grid gap-6 lg:grid-cols-2">
+
         <div className="glass-card rounded-xl p-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <h2 className="text-lg font-semibold text-card-foreground mb-4">Status Kamar</h2>
           <div className="space-y-3">
