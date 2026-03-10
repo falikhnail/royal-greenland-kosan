@@ -8,6 +8,7 @@ const navItems = [
   { to: "/rooms", icon: DoorOpen, label: "Kamar" },
   { to: "/tenants", icon: Users, label: "Penghuni" },
   { to: "/payments", icon: CreditCard, label: "Pembayaran" },
+  { to: "/reminders", icon: Bell, label: "Pengingat" },
   { to: "/users", icon: ShieldCheck, label: "Kelola Admin" },
 ];
 
