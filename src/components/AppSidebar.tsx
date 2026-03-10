@@ -9,6 +9,7 @@ const navItems = [
   { to: "/tenants", icon: Users, label: "Penghuni" },
   { to: "/payments", icon: CreditCard, label: "Pembayaran" },
   { to: "/reminders", icon: Bell, label: "Pengingat" },
+  { to: "/reports", icon: FileText, label: "Laporan" },
   { to: "/users", icon: ShieldCheck, label: "Kelola Admin" },
 ];
 
