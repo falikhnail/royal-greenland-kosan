@@ -1,4 +1,4 @@
-import { Home, DoorOpen, Users, CreditCard, LogOut, ShieldCheck, Bell } from "lucide-react";
+import { Home, DoorOpen, Users, CreditCard, LogOut, ShieldCheck, Bell, FileText } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/logo.png";
