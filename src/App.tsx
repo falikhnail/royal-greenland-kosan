@@ -11,6 +11,7 @@ import Tenants from "./pages/Tenants";
 import Payments from "./pages/Payments";
 import Users from "./pages/Users";
 import Auth from "./pages/Auth";
+import Reminders from "./pages/Reminders";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
