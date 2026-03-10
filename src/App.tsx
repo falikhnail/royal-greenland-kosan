@@ -12,6 +12,7 @@ import Payments from "./pages/Payments";
 import Users from "./pages/Users";
 import Auth from "./pages/Auth";
 import Reminders from "./pages/Reminders";
+import Reports from "./pages/Reports";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
