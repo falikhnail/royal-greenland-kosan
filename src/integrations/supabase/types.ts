@@ -85,6 +85,47 @@ export type Database = {
         }
         Relationships: []
       }
+      reminder_logs: {
+        Row: {
+          id: string
+          method: string
+          month_number: number
+          room_number: string
+          sent_at: string
+          tenant_id: string
+          tenant_name: string
+          year: number
+        }
+        Insert: {
+          id?: string
+          method?: string
+          month_number?: number
+          room_number?: string
+          sent_at?: string
+          tenant_id: string
+          tenant_name?: string
+          year?: number
+        }
+        Update: {
+          id?: string
+          method?: string
+          month_number?: number
+          room_number?: string
+          sent_at?: string
+          tenant_id?: string
+          tenant_name?: string
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminder_logs_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       rooms: {
         Row: {
           created_at: string
