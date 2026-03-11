@@ -84,7 +84,13 @@ const Reports = () => {
 
   const revenueChartRef = useRef<HTMLDivElement>(null);
   const occupancyChartRef = useRef<HTMLDivElement>(null);
+  const comparisonChartRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
+
+  const comparisonYears = useMemo(() => {
+    const yrs = [...new Set(allPayments.map((p) => p.year))].sort((a, b) => b - a);
+    return yrs.length >= 2 ? yrs.slice(0, 3) : [selectedYear, selectedYear - 1];
+  }, [allPayments, selectedYear]);
 
   // PDF Export
   const exportPDF = async () => {
