@@ -259,6 +259,9 @@ const Reports = () => {
       : `Laporan_Tahunan_${selectedYear}.pdf`;
 
     doc.save(filename);
+    } finally {
+      setExporting(false);
+    }
   };
 
   return (
