@@ -170,12 +170,13 @@ const Reports = () => {
       return canvas.toDataURL("image/png");
     };
 
-    const [revenueImg, occupancyImg] = await Promise.all([
+    const [revenueImg, occupancyImg, comparisonImg] = await Promise.all([
       captureChart(revenueChartRef),
       captureChart(occupancyChartRef),
+      captureChart(comparisonChartRef),
     ]);
 
-    if (revenueImg || occupancyImg) {
+    if (revenueImg || occupancyImg || comparisonImg) {
       if (y + chartHeight + 15 > 270) { doc.addPage(); y = 20; }
       doc.setFontSize(13);
       doc.setFont("helvetica", "bold");
@@ -190,6 +191,11 @@ const Reports = () => {
       if (occupancyImg) {
         if (y + chartHeight > 270) { doc.addPage(); y = 20; }
         doc.addImage(occupancyImg, "PNG", 14, y, chartWidth / 2, chartHeight);
+        y += chartHeight + 8;
+      }
+      if (comparisonImg) {
+        if (y + chartHeight > 270) { doc.addPage(); y = 20; }
+        doc.addImage(comparisonImg, "PNG", 14, y, chartWidth, chartHeight);
         y += chartHeight + 8;
       }
     }
