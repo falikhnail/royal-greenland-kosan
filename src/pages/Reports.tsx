@@ -8,6 +8,8 @@ import { useRooms } from "@/hooks/useRooms";
 import { useTenants } from "@/hooks/useTenants";
 import { usePayments } from "@/hooks/usePayments";
 import { formatCurrency } from "@/data/mockData";
+import ReportRevenueChart from "@/components/ReportRevenueChart";
+import ReportOccupancyChart from "@/components/ReportOccupancyChart";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
