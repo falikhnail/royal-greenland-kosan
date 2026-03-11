@@ -276,8 +276,8 @@ const Reports = () => {
             Laporan pendapatan dan okupansi {periodLabel}
           </p>
         </div>
-        <Button onClick={exportPDF} className="gap-2">
-          <Download className="h-4 w-4" />
+        <Button onClick={exportPDF} disabled={exporting} className="gap-2">
+          {exporting ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" /> : <Download className="h-4 w-4" />}
           Ekspor PDF
         </Button>
       </div>
