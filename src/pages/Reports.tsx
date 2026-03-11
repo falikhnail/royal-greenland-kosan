@@ -351,12 +351,16 @@ const Reports = () => {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        <ReportRevenueChart payments={allPayments} year={selectedYear} />
-        <ReportOccupancyChart
-          occupied={occupancy.occupied}
-          available={occupancy.available}
-          maintenance={occupancy.maintenance}
-        />
+        <div ref={revenueChartRef}>
+          <ReportRevenueChart payments={allPayments} year={selectedYear} />
+        </div>
+        <div ref={occupancyChartRef}>
+          <ReportOccupancyChart
+            occupied={occupancy.occupied}
+            available={occupancy.available}
+            maintenance={occupancy.maintenance}
+          />
+        </div>
       </div>
 
       {/* Monthly Breakdown (yearly) */}
