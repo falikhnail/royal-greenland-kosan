@@ -81,8 +81,14 @@ const Reports = () => {
     ? `${MONTH_NAMES[selectedMonth]} ${selectedYear}`
     : `Tahun ${selectedYear}`;
 
+  const revenueChartRef = useRef<HTMLDivElement>(null);
+  const occupancyChartRef = useRef<HTMLDivElement>(null);
+  const [exporting, setExporting] = useState(false);
+
   // PDF Export
-  const exportPDF = () => {
+  const exportPDF = async () => {
+    setExporting(true);
+    try {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
 
