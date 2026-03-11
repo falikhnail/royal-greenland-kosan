@@ -10,6 +10,7 @@ import { usePayments } from "@/hooks/usePayments";
 import { formatCurrency } from "@/data/mockData";
 import ReportRevenueChart from "@/components/ReportRevenueChart";
 import ReportOccupancyChart from "@/components/ReportOccupancyChart";
+import YearComparisonChart from "@/components/YearComparisonChart";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import html2canvas from "html2canvas";
