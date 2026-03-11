@@ -370,6 +370,11 @@ const Reports = () => {
         </div>
       </div>
 
+      {/* Year Comparison */}
+      <div className="mb-6" ref={comparisonChartRef}>
+        <YearComparisonChart payments={allPayments} years={comparisonYears} />
+      </div>
+
       {/* Monthly Breakdown (yearly) */}
       {reportType === "yearly" && monthlyBreakdown.length > 0 && (
         <>
