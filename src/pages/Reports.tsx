@@ -12,6 +12,7 @@ import ReportRevenueChart from "@/components/ReportRevenueChart";
 import ReportOccupancyChart from "@/components/ReportOccupancyChart";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import html2canvas from "html2canvas";
 
 const MONTH_NAMES = [
   "", "Januari", "Februari", "Maret", "April", "Mei", "Juni",
