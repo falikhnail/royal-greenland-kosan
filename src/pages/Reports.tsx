@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { FileText, Download, TrendingUp, Home, CheckCircle, Clock, AlertTriangle, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -12,6 +12,7 @@ import ReportRevenueChart from "@/components/ReportRevenueChart";
 import ReportOccupancyChart from "@/components/ReportOccupancyChart";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import html2canvas from "html2canvas";
 
 const MONTH_NAMES = [
   "", "Januari", "Februari", "Maret", "April", "Mei", "Juni",
@@ -80,8 +81,14 @@ const Reports = () => {
     ? `${MONTH_NAMES[selectedMonth]} ${selectedYear}`
     : `Tahun ${selectedYear}`;
 
+  const revenueChartRef = useRef<HTMLDivElement>(null);
+  const occupancyChartRef = useRef<HTMLDivElement>(null);
+  const [exporting, setExporting] = useState(false);
+
   // PDF Export
-  const exportPDF = () => {
+  const exportPDF = async () => {
+    setExporting(true);
+    try {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
 
@@ -145,6 +152,40 @@ const Reports = () => {
     });
 
     y = (doc as any).lastAutoTable.finalY + 12;
+
+    // Charts
+    const chartWidth = pageWidth - 28;
+    const chartHeight = 70;
+
+    const captureChart = async (ref: React.RefObject<HTMLDivElement | null>) => {
+      if (!ref.current) return null;
+      const canvas = await html2canvas(ref.current, { backgroundColor: "#ffffff", scale: 2 });
+      return canvas.toDataURL("image/png");
+    };
+
+    const [revenueImg, occupancyImg] = await Promise.all([
+      captureChart(revenueChartRef),
+      captureChart(occupancyChartRef),
+    ]);
+
+    if (revenueImg || occupancyImg) {
+      if (y + chartHeight + 15 > 270) { doc.addPage(); y = 20; }
+      doc.setFontSize(13);
+      doc.setFont("helvetica", "bold");
+      doc.text("Grafik", 14, y);
+      y += 5;
+
+      if (revenueImg) {
+        if (y + chartHeight > 270) { doc.addPage(); y = 20; }
+        doc.addImage(revenueImg, "PNG", 14, y, chartWidth, chartHeight);
+        y += chartHeight + 8;
+      }
+      if (occupancyImg) {
+        if (y + chartHeight > 270) { doc.addPage(); y = 20; }
+        doc.addImage(occupancyImg, "PNG", 14, y, chartWidth / 2, chartHeight);
+        y += chartHeight + 8;
+      }
+    }
 
     // Monthly breakdown (yearly only)
     if (reportType === "yearly" && monthlyBreakdown.length > 0) {
@@ -218,6 +259,9 @@ const Reports = () => {
       : `Laporan_Tahunan_${selectedYear}.pdf`;
 
     doc.save(filename);
+    } finally {
+      setExporting(false);
+    }
   };
 
   return (
@@ -232,8 +276,8 @@ const Reports = () => {
             Laporan pendapatan dan okupansi {periodLabel}
           </p>
         </div>
-        <Button onClick={exportPDF} className="gap-2">
-          <Download className="h-4 w-4" />
+        <Button onClick={exportPDF} disabled={exporting} className="gap-2">
+          {exporting ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" /> : <Download className="h-4 w-4" />}
           Ekspor PDF
         </Button>
       </div>
@@ -307,12 +351,16 @@ const Reports = () => {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        <ReportRevenueChart payments={allPayments} year={selectedYear} />
-        <ReportOccupancyChart
-          occupied={occupancy.occupied}
-          available={occupancy.available}
-          maintenance={occupancy.maintenance}
-        />
+        <div ref={revenueChartRef}>
+          <ReportRevenueChart payments={allPayments} year={selectedYear} />
+        </div>
+        <div ref={occupancyChartRef}>
+          <ReportOccupancyChart
+            occupied={occupancy.occupied}
+            available={occupancy.available}
+            maintenance={occupancy.maintenance}
+          />
+        </div>
       </div>
 
       {/* Monthly Breakdown (yearly) */}
