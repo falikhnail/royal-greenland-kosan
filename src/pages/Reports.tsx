@@ -8,6 +8,8 @@ import { useRooms } from "@/hooks/useRooms";
 import { useTenants } from "@/hooks/useTenants";
 import { usePayments } from "@/hooks/usePayments";
 import { formatCurrency } from "@/data/mockData";
+import ReportRevenueChart from "@/components/ReportRevenueChart";
+import ReportOccupancyChart from "@/components/ReportOccupancyChart";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -301,6 +303,16 @@ const Reports = () => {
           <p className="text-xs text-muted-foreground">Maintenance</p>
           <p className="text-2xl font-bold text-destructive mt-1">{occupancy.maintenance}</p>
         </div>
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+        <ReportRevenueChart payments={allPayments} year={selectedYear} />
+        <ReportOccupancyChart
+          occupied={occupancy.occupied}
+          available={occupancy.available}
+          maintenance={occupancy.maintenance}
+        />
       </div>
 
       {/* Monthly Breakdown (yearly) */}
