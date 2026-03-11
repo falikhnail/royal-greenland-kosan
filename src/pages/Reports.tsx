@@ -153,6 +153,40 @@ const Reports = () => {
 
     y = (doc as any).lastAutoTable.finalY + 12;
 
+    // Charts
+    const chartWidth = pageWidth - 28;
+    const chartHeight = 70;
+
+    const captureChart = async (ref: React.RefObject<HTMLDivElement | null>) => {
+      if (!ref.current) return null;
+      const canvas = await html2canvas(ref.current, { backgroundColor: "#ffffff", scale: 2 });
+      return canvas.toDataURL("image/png");
+    };
+
+    const [revenueImg, occupancyImg] = await Promise.all([
+      captureChart(revenueChartRef),
+      captureChart(occupancyChartRef),
+    ]);
+
+    if (revenueImg || occupancyImg) {
+      if (y + chartHeight + 15 > 270) { doc.addPage(); y = 20; }
+      doc.setFontSize(13);
+      doc.setFont("helvetica", "bold");
+      doc.text("Grafik", 14, y);
+      y += 5;
+
+      if (revenueImg) {
+        if (y + chartHeight > 270) { doc.addPage(); y = 20; }
+        doc.addImage(revenueImg, "PNG", 14, y, chartWidth, chartHeight);
+        y += chartHeight + 8;
+      }
+      if (occupancyImg) {
+        if (y + chartHeight > 270) { doc.addPage(); y = 20; }
+        doc.addImage(occupancyImg, "PNG", 14, y, chartWidth / 2, chartHeight);
+        y += chartHeight + 8;
+      }
+    }
+
     // Monthly breakdown (yearly only)
     if (reportType === "yearly" && monthlyBreakdown.length > 0) {
       doc.setFontSize(13);
