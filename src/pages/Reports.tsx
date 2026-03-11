@@ -10,6 +10,7 @@ import { usePayments } from "@/hooks/usePayments";
 import { formatCurrency } from "@/data/mockData";
 import ReportRevenueChart from "@/components/ReportRevenueChart";
 import ReportOccupancyChart from "@/components/ReportOccupancyChart";
+import YearComparisonChart from "@/components/YearComparisonChart";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import html2canvas from "html2canvas";
@@ -83,7 +84,13 @@ const Reports = () => {
 
   const revenueChartRef = useRef<HTMLDivElement>(null);
   const occupancyChartRef = useRef<HTMLDivElement>(null);
+  const comparisonChartRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
+
+  const comparisonYears = useMemo(() => {
+    const yrs = [...new Set(allPayments.map((p) => p.year))].sort((a, b) => b - a);
+    return yrs.length >= 2 ? yrs.slice(0, 3) : [selectedYear, selectedYear - 1];
+  }, [allPayments, selectedYear]);
 
   // PDF Export
   const exportPDF = async () => {
@@ -163,12 +170,13 @@ const Reports = () => {
       return canvas.toDataURL("image/png");
     };
 
-    const [revenueImg, occupancyImg] = await Promise.all([
+    const [revenueImg, occupancyImg, comparisonImg] = await Promise.all([
       captureChart(revenueChartRef),
       captureChart(occupancyChartRef),
+      captureChart(comparisonChartRef),
     ]);
 
-    if (revenueImg || occupancyImg) {
+    if (revenueImg || occupancyImg || comparisonImg) {
       if (y + chartHeight + 15 > 270) { doc.addPage(); y = 20; }
       doc.setFontSize(13);
       doc.setFont("helvetica", "bold");
@@ -183,6 +191,11 @@ const Reports = () => {
       if (occupancyImg) {
         if (y + chartHeight > 270) { doc.addPage(); y = 20; }
         doc.addImage(occupancyImg, "PNG", 14, y, chartWidth / 2, chartHeight);
+        y += chartHeight + 8;
+      }
+      if (comparisonImg) {
+        if (y + chartHeight > 270) { doc.addPage(); y = 20; }
+        doc.addImage(comparisonImg, "PNG", 14, y, chartWidth, chartHeight);
         y += chartHeight + 8;
       }
     }
@@ -361,6 +374,11 @@ const Reports = () => {
             maintenance={occupancy.maintenance}
           />
         </div>
+      </div>
+
+      {/* Year Comparison */}
+      <div className="mb-6" ref={comparisonChartRef}>
+        <YearComparisonChart payments={allPayments} years={comparisonYears} />
       </div>
 
       {/* Monthly Breakdown (yearly) */}
