@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
 import RoomStatusBadge from "@/components/RoomStatusBadge";
@@ -8,6 +8,7 @@ import DeleteConfirm from "@/components/DeleteConfirm";
 import { useRooms, useAddRoom, useUpdateRoom, useDeleteRoom, Room } from "@/hooks/useRooms";
 import { useTenants } from "@/hooks/useTenants";
 import { formatCurrency } from "@/data/mockData";
+import { exportToCSV } from "@/lib/exportCSV";
 
 const Rooms = () => {
   const { data: rooms = [] } = useRooms();
@@ -36,9 +37,21 @@ const Rooms = () => {
           <h1 className="text-2xl font-bold text-foreground">Daftar Kamar</h1>
           <p className="text-sm text-muted-foreground">Kelola semua kamar di Royal Greenland</p>
         </div>
-        <Button onClick={() => { setEditRoom(null); setDialogOpen(true); }}>
-          <Plus className="mr-2 h-4 w-4" /> Tambah Kamar
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => {
+            const headers = ["Nomor", "Lantai", "Tipe", "Harga/Bulan", "Penghuni", "Status"];
+            const rows = rooms.map((r) => {
+              const t = tenants.find((t) => t.id === r.tenant_id);
+              return [r.number, `Lantai ${r.floor}`, r.type, String(r.price), t?.name ?? "-", r.status === "available" ? "Tersedia" : r.status === "occupied" ? "Terisi" : "Perbaikan"];
+            });
+            exportToCSV("data-kamar", headers, rows);
+          }}>
+            <Download className="mr-2 h-4 w-4" /> Ekspor CSV
+          </Button>
+          <Button onClick={() => { setEditRoom(null); setDialogOpen(true); }}>
+            <Plus className="mr-2 h-4 w-4" /> Tambah Kamar
+          </Button>
+        </div>
       </div>
 
       <div className="glass-card rounded-xl overflow-hidden animate-fade-in">
