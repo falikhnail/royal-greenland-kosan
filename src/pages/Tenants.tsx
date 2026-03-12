@@ -7,6 +7,7 @@ import DeleteConfirm from "@/components/DeleteConfirm";
 import { useRooms } from "@/hooks/useRooms";
 import { useTenants, useAddTenant, useUpdateTenant, useDeleteTenant, Tenant } from "@/hooks/useTenants";
 import { formatCurrency } from "@/data/mockData";
+import { exportToCSV } from "@/lib/exportCSV";
 
 const Tenants = () => {
   const { data: tenants = [] } = useTenants();
