@@ -11,6 +11,7 @@ const navItems = [
   { to: "/reminders", icon: Bell, label: "Pengingat" },
   { to: "/reports", icon: FileText, label: "Laporan" },
   { to: "/users", icon: ShieldCheck, label: "Kelola Admin" },
+  { to: "/activity-log", icon: History, label: "Log Aktivitas" },
 ];
 
 const AppSidebar = () => {
