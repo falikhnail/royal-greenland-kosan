@@ -7,6 +7,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 import { usePayments, useUpdatePaymentStatus, useGenerateMonthlyPayments, getWhatsAppBillingUrl } from "@/hooks/usePayments";
 import { useTenants } from "@/hooks/useTenants";
 import { formatCurrency } from "@/data/mockData";
+import { exportToCSV } from "@/lib/exportCSV";
 
 const MONTH_NAMES = [
   "", "Januari", "Februari", "Maret", "April", "Mei", "Juni",
