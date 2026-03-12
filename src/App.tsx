@@ -13,6 +13,7 @@ import Users from "./pages/Users";
 import Auth from "./pages/Auth";
 import Reminders from "./pages/Reminders";
 import Reports from "./pages/Reports";
+import ActivityLog from "./pages/ActivityLog";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
