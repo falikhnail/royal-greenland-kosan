@@ -78,6 +78,17 @@ const Payments = () => {
               ))}
             </SelectContent>
           </Select>
+          <Button variant="outline" size="sm" onClick={() => {
+            const headers = ["Penghuni", "Kamar", "Bulan", "Tahun", "Jumlah", "Status", "Tanggal Bayar"];
+            const rows = payments.map((p) => [
+              p.tenant_name, p.room_number, p.month, String(p.year), String(p.amount),
+              p.status === "paid" ? "Lunas" : p.status === "pending" ? "Menunggu" : "Menunggak",
+              p.date ? new Date(p.date).toLocaleDateString("id-ID") : "-",
+            ]);
+            exportToCSV(`pembayaran-${MONTH_NAMES[month]}-${year}`, headers, rows);
+          }}>
+            <Download className="mr-1.5 h-3.5 w-3.5" /> Ekspor CSV
+          </Button>
           <Button onClick={handleGenerate} disabled={generatePayments.isPending} size="sm">
             <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> Generate
           </Button>
