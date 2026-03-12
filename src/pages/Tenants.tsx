@@ -44,9 +44,23 @@ const Tenants = () => {
           <h1 className="text-2xl font-bold text-foreground">Daftar Penghuni</h1>
           <p className="text-sm text-muted-foreground">Informasi seluruh penghuni kosan</p>
         </div>
-        <Button onClick={() => { setEditTenant(null); setDialogOpen(true); }}>
-          <Plus className="mr-2 h-4 w-4" /> Tambah Penghuni
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => {
+            const headers = ["Nama", "No. Telepon", "Kamar", "Sewa/Bulan", "Tanggal Masuk", "Jatuh Tempo", "Status"];
+            const rows = tenants.map((t) => [
+              t.name, t.phone, t.room_number, String(t.monthly_rent),
+              new Date(t.move_in_date).toLocaleDateString("id-ID"),
+              `Tgl ${t.due_day}`,
+              t.status === "active" ? "Aktif" : "Menunggak",
+            ]);
+            exportToCSV("data-penghuni", headers, rows);
+          }}>
+            <Download className="mr-2 h-4 w-4" /> Ekspor CSV
+          </Button>
+          <Button onClick={() => { setEditTenant(null); setDialogOpen(true); }}>
+            <Plus className="mr-2 h-4 w-4" /> Tambah Penghuni
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
