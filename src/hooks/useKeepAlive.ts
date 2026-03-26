@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 const PING_INTERVAL = 4 * 60 * 1000; // 4 minutes
 
 export type DbStatus = "connected" | "disconnected" | "checking";
 
-export function useKeepAlive() {
+const KeepAliveContext = createContext<DbStatus>("checking");
+
+export function KeepAliveProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<DbStatus>("checking");
 
   useEffect(() => {
@@ -24,5 +26,13 @@ export function useKeepAlive() {
     return () => clearInterval(interval);
   }, []);
 
-  return status;
+  return (
+    <KeepAliveContext.Provider value={status}>
+      {children}
+    </KeepAliveContext.Provider>
+  );
+}
+
+export function useDbStatus() {
+  return useContext(KeepAliveContext);
 }
