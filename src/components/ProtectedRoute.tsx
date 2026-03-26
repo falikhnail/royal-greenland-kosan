@@ -1,10 +1,9 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { useKeepAlive } from "@/hooks/useKeepAlive";
+import { KeepAliveProvider } from "@/hooks/useKeepAlive";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
-  useKeepAlive();
 
   if (loading) {
     return (
@@ -19,7 +18,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (!user) return <Navigate to="/auth" replace />;
 
-  return <>{children}</>;
+  return <KeepAliveProvider>{children}</KeepAliveProvider>;
 };
 
 export default ProtectedRoute;
