@@ -1,8 +1,10 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useKeepAlive } from "@/hooks/useKeepAlive";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
+  useKeepAlive();
 
   if (loading) {
     return (
