@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { LogIn, Building2, CreditCard, Users, BarChart3, ChevronLeft, ChevronRight } from "lucide-react";
+import { LogIn, Building2, CreditCard, Users, BarChart3, ChevronLeft, ChevronRight, Eye, EyeOff } from "lucide-react";
 import logo from "@/assets/logo.png";
 import heroImg from "@/assets/auth-hero.jpg";
 
