@@ -156,7 +156,10 @@ const Payments = () => {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <p className="text-sm font-bold text-card-foreground">Kamar {p.room_number}</p>
-                    <p className="text-xs text-muted-foreground">{p.tenant_name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {p.tenant_name}
+                      {!p.tenant_id && <span className="ml-1 text-destructive font-medium">(Dihapus)</span>}
+                    </p>
                   </div>
                   <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium ${s.className}`}>
                     <StatusIcon className="h-3 w-3" />
