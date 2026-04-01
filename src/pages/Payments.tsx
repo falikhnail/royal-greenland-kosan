@@ -174,7 +174,7 @@ const Payments = () => {
                   </p>
                 </div>
 
-                {p.status !== "paid" && (
+                {p.status !== "paid" && p.tenant_id && (
                   <div className="flex gap-2 pt-2 border-t border-border">
                     <Button variant="outline" size="sm" className="flex-1 text-xs" onClick={() => markAsPaid(p.id)}>
                       <CheckCircle className="mr-1 h-3 w-3" /> Lunas
