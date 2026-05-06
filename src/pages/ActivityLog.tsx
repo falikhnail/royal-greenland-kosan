@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardLayout from "@/components/DashboardLayout";
+import SEO from "@/components/SEO";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -67,6 +68,7 @@ const ActivityLog = () => {
 
   return (
     <DashboardLayout>
+      <SEO title="Log Aktivitas" description="Riwayat lengkap aktivitas perubahan data kamar, penghuni, dan pembayaran di Royal Greenland." />
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>

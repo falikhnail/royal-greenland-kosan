@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { LogIn, Building2, CreditCard, Users, BarChart3, ChevronLeft, ChevronRight, Eye, EyeOff } from "lucide-react";
 import logo from "@/assets/logo.png";
 import heroImg from "@/assets/auth-hero.jpg";
+import SEO from "@/components/SEO";
 
 const slides = [
   {
@@ -68,6 +69,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex bg-background">
+      <SEO title="Masuk" description="Masuk ke sistem manajemen kos Royal Greenland untuk mengelola kamar, penghuni, dan pembayaran." />
       {/* Left — Hero / Branding */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <img

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { DoorOpen, Users, TrendingUp, AlertTriangle, CreditCard, CheckCircle, Clock, CircleDollarSign } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import DashboardLayout from "@/components/DashboardLayout";
+import SEO from "@/components/SEO";
 import StatCard from "@/components/StatCard";
 import RoomStatusBadge from "@/components/RoomStatusBadge";
 import RevenueChart from "@/components/RevenueChart";
@@ -42,6 +43,7 @@ const Index = () => {
 
   return (
     <DashboardLayout>
+      <SEO title="Dashboard" description="Ringkasan okupansi kamar, status pembayaran bulanan, dan aktivitas terbaru di Royal Greenland." />
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
         <p className="text-sm text-muted-foreground">Selamat datang di Royal Greenland Management</p>

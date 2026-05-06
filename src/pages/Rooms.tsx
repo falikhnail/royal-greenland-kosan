@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Plus, Pencil, Trash2, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
+import SEO from "@/components/SEO";
 import RoomStatusBadge from "@/components/RoomStatusBadge";
 import RoomDialog from "@/components/RoomDialog";
 import DeleteConfirm from "@/components/DeleteConfirm";
@@ -32,6 +33,7 @@ const Rooms = () => {
 
   return (
     <DashboardLayout>
+      <SEO title="Daftar Kamar" description="Kelola seluruh kamar Royal Greenland: status hunian, harga sewa, dan ketersediaan." />
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Daftar Kamar</h1>

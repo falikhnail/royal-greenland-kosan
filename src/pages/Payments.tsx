@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import DashboardLayout from "@/components/DashboardLayout";
+import SEO from "@/components/SEO";
 import { usePayments, useUpdatePaymentStatus, useGenerateMonthlyPayments, getWhatsAppBillingUrl } from "@/hooks/usePayments";
 import { useTenants } from "@/hooks/useTenants";
 import { formatCurrency } from "@/data/mockData";
@@ -55,6 +56,7 @@ const Payments = () => {
 
   return (
     <DashboardLayout>
+      <SEO title="Pembayaran" description="Kelola tagihan bulanan, status lunas, dan kirim pengingat pembayaran via WhatsApp untuk penghuni Royal Greenland." />
       {/* Header */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
