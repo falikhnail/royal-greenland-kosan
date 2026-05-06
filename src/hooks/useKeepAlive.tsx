@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-const PING_INTERVAL = 4 * 60 * 1000; // 4 minutes
+const PING_INTERVAL = 2 * 60 * 1000; // 2 minutes
 
 export type DbStatus = "connected" | "disconnected" | "checking";
 
