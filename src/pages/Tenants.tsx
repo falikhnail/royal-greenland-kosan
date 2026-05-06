@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Phone, Plus, Pencil, Trash2, MessageCircle, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DashboardLayout from "@/components/DashboardLayout";
+import SEO from "@/components/SEO";
 import TenantDialog from "@/components/TenantDialog";
 import DeleteConfirm from "@/components/DeleteConfirm";
 import { useRooms } from "@/hooks/useRooms";
@@ -39,6 +40,10 @@ const Tenants = () => {
 
   return (
     <DashboardLayout>
+      <SEO
+        title="Daftar Penghuni"
+        description="Kelola informasi seluruh penghuni kosan Royal Greenland: nama, kontak, kamar, dan jatuh tempo pembayaran."
+      />
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Daftar Penghuni</h1>
