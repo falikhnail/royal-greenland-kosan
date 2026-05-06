@@ -3,6 +3,7 @@ import { Bell, MessageCircle, CheckCircle, Clock, AlertTriangle, Send } from "lu
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import DashboardLayout from "@/components/DashboardLayout";
+import SEO from "@/components/SEO";
 import { useTenants } from "@/hooks/useTenants";
 import {
   useReminderLogs,
@@ -76,6 +77,7 @@ const Reminders = () => {
 
   return (
     <DashboardLayout>
+      <SEO title="Pengingat Jatuh Tempo" description="Kirim pengingat otomatis H-1 hingga H-7 ke penghuni Royal Greenland melalui WhatsApp." />
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DashboardLayout from "@/components/DashboardLayout";
+import SEO from "@/components/SEO";
 import { useRooms } from "@/hooks/useRooms";
 import { useTenants } from "@/hooks/useTenants";
 import { usePayments } from "@/hooks/usePayments";
@@ -279,6 +280,7 @@ const Reports = () => {
 
   return (
     <DashboardLayout>
+      <SEO title="Laporan" description="Analisa pendapatan, okupansi, dan tren tahunan Royal Greenland. Ekspor laporan ke PDF." />
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
