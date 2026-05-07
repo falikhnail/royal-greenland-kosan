@@ -86,30 +86,34 @@ export function getReminderWhatsAppUrl(
   const currentMonth = monthNames[now.getMonth() + 1];
   const currentYear = now.getFullYear();
 
-  const message = `Assalamualaikum Wr. Wb.
+  const message = `*PENGINGAT JATUH TEMPO — ROYAL GREENLAND*
 
-Yth. Bapak/Ibu ${tenantName},
+Assalamualaikum Wr. Wb.
 
-Dengan hormat, kami dari pengelola Royal Greenland ingin mengingatkan bahwa tanggal jatuh tempo pembayaran sewa kosan Anda sudah dekat:
+Yth. Bapak/Ibu *${tenantName}*,
 
-🏠 Kamar: ${roomNumber}
-📅 Jatuh Tempo: Tanggal ${dueDay} ${currentMonth} ${currentYear}
-💰 Jumlah: ${formattedAmount}
+Dengan hormat, kami mengingatkan bahwa tanggal jatuh tempo pembayaran sewa kosan Anda sudah dekat:
 
-Mohon untuk dapat melakukan pembayaran tepat waktu. Pembayaran dapat dilakukan melalui transfer ke rekening berikut:
+*Detail Tagihan*
+🏠 Kamar         : ${roomNumber}
+📅 Jatuh Tempo   : ${dueDay} ${currentMonth} ${currentYear}
+💰 Jumlah        : ${formattedAmount}
 
-🏦 BRI: 592501013144533
-🏦 BCA: 0982222221
-🏦 BNI: 5557773731
+*Pembayaran*
+Mohon dilakukan tepat waktu melalui transfer ke salah satu rekening berikut:
 
-a.n. ANDRI EKA SETIAWAN
+🏦 BRI  : 592501013144533
+🏦 BCA  : 0982222221
+🏦 BNI  : 5557773731
 
-Jika sudah melakukan pembayaran, mohon abaikan pesan ini dan kirimkan bukti transfer kepada kami.
+a.n. *ANDRI EKA SETIAWAN*
 
-Terima kasih atas perhatian dan kerjasamanya.
+Setelah melakukan pembayaran, mohon kirimkan bukti transfer melalui chat ini. Apabila pembayaran telah dilakukan, abaikan pesan ini.
+
+Terima kasih atas perhatian dan kerja samanya.
 
 Hormat kami,
-Pengelola Royal Greenland`;
+*Pengelola Royal Greenland*`;
 
   return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
 }
