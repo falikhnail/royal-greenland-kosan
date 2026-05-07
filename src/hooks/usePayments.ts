@@ -115,7 +115,15 @@ Dengan hormat, kami dari pengelola Royal Greenland ingin mengingatkan bahwa tagi
 📅 Periode: ${month}
 💰 Jumlah: ${formattedAmount}
 
-Mohon untuk dapat melakukan pembayaran sebelum jatuh tempo. Jika sudah melakukan pembayaran, mohon abaikan pesan ini.
+Mohon untuk dapat melakukan pembayaran sebelum jatuh tempo. Pembayaran dapat dilakukan melalui transfer ke rekening berikut:
+
+🏦 BRI: 592501013144533
+🏦 BCA: 0982222221
+🏦 BNI: 5557773731
+
+a.n. ANDRI EKA SETIAWAN
+
+Jika sudah melakukan pembayaran, mohon abaikan pesan ini dan kirimkan bukti transfer kepada kami.
 
 Terima kasih atas perhatian dan kerjasamanya.
 
