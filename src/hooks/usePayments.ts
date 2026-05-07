@@ -101,33 +101,78 @@ export function useUpdatePaymentStatus() {
   });
 }
 
-export function getWhatsAppBillingUrl(phone: string, tenantName: string, roomNumber: string, amount: number, month: string) {
+const REKENING_BLOCK = `*Pembayaran via Transfer*
+🏦 BRI  : 592501013144533
+🏦 BCA  : 0982222221
+🏦 BNI  : 5557773731
+
+a.n. *ANDRI EKA SETIAWAN*`;
+
+export function getWhatsAppBillingUrl(
+  phone: string,
+  tenantName: string,
+  roomNumber: string,
+  amount: number,
+  month: string,
+  status: "pending" | "paid" | "overdue" = "pending",
+  paidDate?: string | null,
+) {
   const cleanPhone = phone.replace(/[^0-9]/g, "").replace(/^0/, "62");
   const formattedAmount = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(amount);
 
-  const message = `*TAGIHAN SEWA KOSAN — ROYAL GREENLAND*
+  const detail = `*Detail Tagihan*
+🏠 Kamar       : ${roomNumber}
+📅 Periode     : ${month}
+💰 Jumlah      : ${formattedAmount}`;
+
+  let header = "";
+  let body = "";
+
+  if (status === "paid") {
+    const tgl = paidDate
+      ? new Date(paidDate).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })
+      : "-";
+    header = "*KONFIRMASI PEMBAYARAN — ROYAL GREENLAND*";
+    body = `Terima kasih, pembayaran sewa kosan Anda telah *kami terima* dengan rincian berikut:
+
+${detail}
+✅ Tanggal Bayar: ${tgl}
+📌 Status        : *LUNAS*
+
+Simpan pesan ini sebagai bukti konfirmasi. Apabila terdapat ketidaksesuaian, mohon segera menghubungi kami.`;
+  } else if (status === "overdue") {
+    header = "*PEMBERITAHUAN TUNGGAKAN — ROYAL GREENLAND*";
+    body = `Mohon maaf mengganggu waktu Anda. Berdasarkan catatan kami, pembayaran sewa kosan Anda *telah melewati tanggal jatuh tempo* dengan rincian berikut:
+
+${detail}
+📌 Status        : *MENUNGGAK*
+
+Kami mohon kesediaan Bapak/Ibu untuk segera melakukan pelunasan agar tidak mengganggu administrasi kosan.
+
+${REKENING_BLOCK}
+
+Setelah melakukan pembayaran, mohon kirimkan bukti transfer melalui chat ini.`;
+  } else {
+    header = "*TAGIHAN SEWA KOSAN — ROYAL GREENLAND*";
+    body = `Dengan hormat, kami menyampaikan tagihan sewa kosan Anda dengan rincian berikut:
+
+${detail}
+📌 Status        : *BELUM DIBAYAR*
+
+Mohon pembayaran dilakukan sebelum tanggal jatuh tempo.
+
+${REKENING_BLOCK}
+
+Setelah melakukan pembayaran, mohon kirimkan bukti transfer melalui chat ini. Apabila pembayaran telah dilakukan, abaikan pesan ini.`;
+  }
+
+  const message = `${header}
 
 Assalamualaikum Wr. Wb.
 
 Yth. Bapak/Ibu *${tenantName}*,
 
-Dengan hormat, kami dari pengelola Royal Greenland menyampaikan tagihan sewa kosan Anda dengan rincian sebagai berikut:
-
-*Detail Tagihan*
-🏠 Kamar       : ${roomNumber}
-📅 Periode     : ${month}
-💰 Jumlah      : ${formattedAmount}
-
-*Pembayaran*
-Mohon dilakukan sebelum tanggal jatuh tempo melalui transfer ke salah satu rekening berikut:
-
-🏦 BRI  : 592501013144533
-🏦 BCA  : 0982222221
-🏦 BNI  : 5557773731
-
-a.n. *ANDRI EKA SETIAWAN*
-
-Setelah melakukan pembayaran, mohon kirimkan bukti transfer melalui chat ini. Apabila pembayaran telah dilakukan, abaikan pesan ini.
+${body}
 
 Terima kasih atas perhatian dan kerja samanya.
 
