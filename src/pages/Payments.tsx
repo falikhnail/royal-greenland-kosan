@@ -176,12 +176,23 @@ const Payments = () => {
                   </p>
                 </div>
 
-                {p.status !== "paid" && p.tenant_id && (
+                {p.tenant_id && (
                   <div className="flex gap-2 pt-2 border-t border-border">
-                    <Button variant="outline" size="sm" className="flex-1 text-xs" onClick={() => markAsPaid(p.id)}>
-                      <CheckCircle className="mr-1 h-3 w-3" /> Lunas
-                    </Button>
-                    <WhatsAppButton tenantId={p.tenant_id} tenantName={p.tenant_name} roomNumber={p.room_number} amount={p.amount} month={p.month} tenants={tenants} />
+                    {p.status !== "paid" && (
+                      <Button variant="outline" size="sm" className="flex-1 text-xs" onClick={() => markAsPaid(p.id)}>
+                        <CheckCircle className="mr-1 h-3 w-3" /> Lunas
+                      </Button>
+                    )}
+                    <WhatsAppButton
+                      tenantId={p.tenant_id}
+                      tenantName={p.tenant_name}
+                      roomNumber={p.room_number}
+                      amount={p.amount}
+                      month={p.month}
+                      status={p.status as "pending" | "paid" | "overdue"}
+                      paidDate={p.date}
+                      tenants={tenants}
+                    />
                   </div>
                 )}
               </div>
@@ -215,17 +226,19 @@ function SummaryCard({ label, value, sub, icon: Icon, variant }: {
   );
 }
 
-function WhatsAppButton({ tenantId, tenantName, roomNumber, amount, month, tenants }: {
+function WhatsAppButton({ tenantId, tenantName, roomNumber, amount, month, status, paidDate, tenants }: {
   tenantId: string | null; tenantName: string; roomNumber: string; amount: number; month: string;
+  status: "pending" | "paid" | "overdue"; paidDate: string | null;
   tenants: { id: string; phone: string }[];
 }) {
   const tenant = tenants.find((t) => t.id === tenantId);
   if (!tenant) return null;
-  const url = getWhatsAppBillingUrl(tenant.phone, tenantName, roomNumber, amount, month);
+  const url = getWhatsAppBillingUrl(tenant.phone, tenantName, roomNumber, amount, month, status, paidDate);
+  const label = status === "paid" ? "Konfirmasi" : status === "overdue" ? "Tagih" : "WA";
   return (
     <Button variant="outline" size="sm" className="flex-1 text-xs text-success hover:text-success" asChild>
       <a href={url} target="_blank" rel="noopener noreferrer">
-        <MessageCircle className="mr-1 h-3 w-3" /> WA
+        <MessageCircle className="mr-1 h-3 w-3" /> {label}
       </a>
     </Button>
   );
