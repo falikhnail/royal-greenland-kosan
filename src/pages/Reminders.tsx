@@ -259,6 +259,24 @@ const Reminders = () => {
           </div>
         </div>
       )}
+
+      {previewTenant && (
+        <WhatsAppPreviewDialog
+          open={!!previewTenant}
+          onOpenChange={(o) => !o && setPreviewTenant(null)}
+          whatsappUrl={getReminderWhatsAppUrl(
+            previewTenant.phone,
+            previewTenant.name,
+            previewTenant.room_number,
+            previewTenant.monthly_rent,
+            previewTenant.due_day,
+          )}
+          recipientName={previewTenant.name}
+          recipientPhone={previewTenant.phone}
+          title="Preview Pengingat WhatsApp"
+          onSent={() => logReminderSent(previewTenant)}
+        />
+      )}
     </DashboardLayout>
   );
 };
