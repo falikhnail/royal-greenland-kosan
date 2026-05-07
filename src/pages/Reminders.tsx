@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import DashboardLayout from "@/components/DashboardLayout";
 import SEO from "@/components/SEO";
-import { useTenants } from "@/hooks/useTenants";
+import WhatsAppPreviewDialog from "@/components/WhatsAppPreviewDialog";
+import { useTenants, type Tenant } from "@/hooks/useTenants";
 import {
   useReminderLogs,
   useLogReminder,
@@ -19,6 +20,7 @@ const DAYS_OPTIONS = [1, 2, 3, 5, 7];
 const Reminders = () => {
   const { data: tenants = [] } = useTenants();
   const [daysBefore, setDaysBefore] = useState(3);
+  const [previewTenant, setPreviewTenant] = useState<Tenant | null>(null);
 
   const now = new Date();
   const currentMonth = now.getMonth() + 1;
@@ -32,16 +34,7 @@ const Reminders = () => {
   const isAlreadySent = (tenantId: string) =>
     logs.some((l) => l.tenant_id === tenantId);
 
-  const handleSendReminder = (tenant: (typeof tenants)[0]) => {
-    const url = getReminderWhatsAppUrl(
-      tenant.phone,
-      tenant.name,
-      tenant.room_number,
-      tenant.monthly_rent,
-      tenant.due_day
-    );
-    window.open(url, "_blank");
-
+  const logReminderSent = (tenant: Tenant) => {
     logReminder.mutate(
       {
         tenant_id: tenant.id,
@@ -64,7 +57,11 @@ const Reminders = () => {
       return;
     }
     unsent.forEach((t, i) => {
-      setTimeout(() => handleSendReminder(t), i * 1500);
+      setTimeout(() => {
+        const url = getReminderWhatsAppUrl(t.phone, t.name, t.room_number, t.monthly_rent, t.due_day);
+        window.open(url, "_blank", "noopener,noreferrer");
+        logReminderSent(t);
+      }, i * 1500);
     });
   };
 
@@ -209,7 +206,7 @@ const Reminders = () => {
                     </div>
                   ) : (
                     <Button
-                      onClick={() => handleSendReminder(tenant)}
+                      onClick={() => setPreviewTenant(tenant)}
                       variant="outline"
                       size="sm"
                       className="w-full gap-2"
@@ -261,6 +258,24 @@ const Reminders = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {previewTenant && (
+        <WhatsAppPreviewDialog
+          open={!!previewTenant}
+          onOpenChange={(o) => !o && setPreviewTenant(null)}
+          whatsappUrl={getReminderWhatsAppUrl(
+            previewTenant.phone,
+            previewTenant.name,
+            previewTenant.room_number,
+            previewTenant.monthly_rent,
+            previewTenant.due_day,
+          )}
+          recipientName={previewTenant.name}
+          recipientPhone={previewTenant.phone}
+          title="Preview Pengingat WhatsApp"
+          onSent={() => logReminderSent(previewTenant)}
+        />
       )}
     </DashboardLayout>
   );

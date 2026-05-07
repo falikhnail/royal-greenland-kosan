@@ -1,4 +1,5 @@
 import { useState } from "react";
+import WhatsAppPreviewDialog from "@/components/WhatsAppPreviewDialog";
 import { CheckCircle, MessageCircle, RefreshCw, AlertTriangle, Clock, CircleDollarSign, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -231,16 +232,25 @@ function WhatsAppButton({ tenantId, tenantName, roomNumber, amount, month, statu
   status: "pending" | "paid" | "overdue"; paidDate: string | null;
   tenants: { id: string; phone: string }[];
 }) {
+  const [open, setOpen] = useState(false);
   const tenant = tenants.find((t) => t.id === tenantId);
   if (!tenant) return null;
   const url = getWhatsAppBillingUrl(tenant.phone, tenantName, roomNumber, amount, month, status, paidDate);
   const label = status === "paid" ? "Konfirmasi" : status === "overdue" ? "Tagih" : "WA";
   return (
-    <Button variant="outline" size="sm" className="flex-1 text-xs text-success hover:text-success" asChild>
-      <a href={url} target="_blank" rel="noopener noreferrer">
+    <>
+      <Button variant="outline" size="sm" className="flex-1 text-xs text-success hover:text-success" onClick={() => setOpen(true)}>
         <MessageCircle className="mr-1 h-3 w-3" /> {label}
-      </a>
-    </Button>
+      </Button>
+      <WhatsAppPreviewDialog
+        open={open}
+        onOpenChange={setOpen}
+        whatsappUrl={url}
+        recipientName={tenantName}
+        recipientPhone={tenant.phone}
+        title={status === "paid" ? "Preview Konfirmasi Pembayaran" : status === "overdue" ? "Preview Pesan Tunggakan" : "Preview Tagihan WhatsApp"}
+      />
+    </>
   );
 }
 
