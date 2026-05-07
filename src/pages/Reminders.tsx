@@ -206,7 +206,7 @@ const Reminders = () => {
                     </div>
                   ) : (
                     <Button
-                      onClick={() => handleSendReminder(tenant)}
+                      onClick={() => setPreviewTenant(tenant)}
                       variant="outline"
                       size="sm"
                       className="w-full gap-2"
