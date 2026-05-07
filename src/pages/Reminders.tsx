@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import DashboardLayout from "@/components/DashboardLayout";
 import SEO from "@/components/SEO";
-import { useTenants } from "@/hooks/useTenants";
+import WhatsAppPreviewDialog from "@/components/WhatsAppPreviewDialog";
+import { useTenants, type Tenant } from "@/hooks/useTenants";
 import {
   useReminderLogs,
   useLogReminder,
