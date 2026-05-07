@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MessageCircle, Send, Copy, Check } from "lucide-react";
 import {
   Dialog,
@@ -49,9 +49,9 @@ const WhatsAppPreviewDialog = ({
   const [copied, setCopied] = useState(false);
 
   // Reset textarea when dialog reopens with a different message
-  useMemo(() => {
+  useEffect(() => {
     setMessage(initialMessage);
-  }, [initialMessage]);
+  }, [initialMessage, open]);
 
   const buildUrl = () => {
     try {
