@@ -105,30 +105,34 @@ export function getWhatsAppBillingUrl(phone: string, tenantName: string, roomNum
   const cleanPhone = phone.replace(/[^0-9]/g, "").replace(/^0/, "62");
   const formattedAmount = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(amount);
 
-  const message = `Assalamualaikum Wr. Wb.
+  const message = `*TAGIHAN SEWA KOSAN — ROYAL GREENLAND*
 
-Yth. Bapak/Ibu ${tenantName},
+Assalamualaikum Wr. Wb.
 
-Dengan hormat, kami dari pengelola Royal Greenland ingin mengingatkan bahwa tagihan sewa kosan untuk:
+Yth. Bapak/Ibu *${tenantName}*,
 
-🏠 Kamar: ${roomNumber}
-📅 Periode: ${month}
-💰 Jumlah: ${formattedAmount}
+Dengan hormat, kami dari pengelola Royal Greenland menyampaikan tagihan sewa kosan Anda dengan rincian sebagai berikut:
 
-Mohon untuk dapat melakukan pembayaran sebelum jatuh tempo. Pembayaran dapat dilakukan melalui transfer ke rekening berikut:
+*Detail Tagihan*
+🏠 Kamar       : ${roomNumber}
+📅 Periode     : ${month}
+💰 Jumlah      : ${formattedAmount}
 
-🏦 BRI: 592501013144533
-🏦 BCA: 0982222221
-🏦 BNI: 5557773731
+*Pembayaran*
+Mohon dilakukan sebelum tanggal jatuh tempo melalui transfer ke salah satu rekening berikut:
 
-a.n. ANDRI EKA SETIAWAN
+🏦 BRI  : 592501013144533
+🏦 BCA  : 0982222221
+🏦 BNI  : 5557773731
 
-Jika sudah melakukan pembayaran, mohon abaikan pesan ini dan kirimkan bukti transfer kepada kami.
+a.n. *ANDRI EKA SETIAWAN*
 
-Terima kasih atas perhatian dan kerjasamanya.
+Setelah melakukan pembayaran, mohon kirimkan bukti transfer melalui chat ini. Apabila pembayaran telah dilakukan, abaikan pesan ini.
+
+Terima kasih atas perhatian dan kerja samanya.
 
 Hormat kami,
-Pengelola Royal Greenland`;
+*Pengelola Royal Greenland*`;
 
   return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
 }
